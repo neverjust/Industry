@@ -25,11 +25,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'factory_id', title: __('Factory_id')},
-                        {field: 'threshold', title: __('Threshold')},
-                        {field: 'situation', title: __('Situation')},
-                        {field: 'factory.id', title: __('Factory.id')},
-                        {field: 'factory.clean_level', title: __('Factory.clean_level')},
+                        {field: 'threshold', title: __('阈值')},
+                        {field: 'situation', title: __('现值')},
+                        {field: 'temperature', title: __('温度')},
+                        {field: 'humidity', title: __('相对湿度')},
+                        {field: 'factory.name', title: __('工厂名')},
+                        {field: 'instrumenttype.name', title: __('仪器名')},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]

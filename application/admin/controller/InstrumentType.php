@@ -9,19 +9,19 @@ use app\common\controller\Backend;
  *
  * @icon fa fa-circle-o
  */
-class Factory extends Backend
+class InstrumentType extends Backend
 {
     
     /**
-     * Factory模型对象
-     * @var \app\admin\model\Factory
+     * InstrumentType模型对象
+     * @var \app\admin\model\InstrumentType
      */
     protected $model = null;
 
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = new \app\admin\model\Factory;
+        $this->model = new \app\admin\model\InstrumentType;
 
     }
     

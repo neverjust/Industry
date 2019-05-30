@@ -4,7 +4,7 @@ namespace app\admin\validate;
 
 use think\Validate;
 
-class Command extends Validate
+class InstrumentType extends Validate
 {
     /**
      * 验证规则
@@ -23,5 +23,5 @@ class Command extends Validate
         'add'  => [],
         'edit' => [],
     ];
-
+    
 }

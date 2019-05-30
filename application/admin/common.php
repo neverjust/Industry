@@ -5,6 +5,27 @@ use fast\Form;
 use fast\Tree;
 use think\Db;
 
+if (!function_exists('updateSituation')) {
+    function updateSituation($instrument)
+    {
+        $factory = Db::table('in_factory')->where('id',$instrument['factory_id'])->find();
+        $type = Db::table('in_instrument_type')->where('id',$instrument['type'])->find();
+        
+        $temperature_dif = $instrument['temperature'] > $type['high_temp'] ?
+            $instrument['temperature'] - $type['high_temp'] :
+            ($instrument['temperature'] < $type['low_temp'] ? $type['high_temp'] - $instrument['temperature'] : 0);
+
+        $humidity_dif = $instrument['humidity'] > $type['high_humidity'] ?
+            $instrument['humidity'] - $type['high_humidity'] :
+            ($instrument['humidity'] < $type['low_humidity'] ? $type['high_humidity'] - $instrument['humidity'] : 0);
+
+        $situation = $temperature_dif + $humidity_dif 
+            + (($factory['clean_level'] - 3 > 0) ? $factory['clean_level'] - 3 : 0)
+            + (($factory['age'] - 10 > 0) ? $factory['age'] - 10 : 0);
+        return $situation;
+    }
+}
+
 if (!function_exists('build_select')) {
 
     /**

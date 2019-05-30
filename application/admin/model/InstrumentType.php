@@ -5,7 +5,7 @@ namespace app\admin\model;
 use think\Model;
 
 
-class Instrument extends Model
+class InstrumentType extends Model
 {
 
     
@@ -13,7 +13,7 @@ class Instrument extends Model
     //数据库
     protected $connection = 'database';
     // 表名
-    protected $name = 'instrument';
+    protected $name = 'instrument_type';
     
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = false;
@@ -37,14 +37,4 @@ class Instrument extends Model
 
 
 
-    public function factory()
-    {
-        return $this->belongsTo('Factory', 'factory_id', 'id', [], 'LEFT')->setEagerlyType(0);
-    }
-
-
-    public function instrumenttype()
-    {
-        return $this->belongsTo('InstrumentType', 'type', 'id', [], 'LEFT')->setEagerlyType(0);
-    }
 }

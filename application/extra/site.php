@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => 'FastAdmin',
+  'name' => '工厂监控报警系统',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',
