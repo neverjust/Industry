@@ -8,7 +8,7 @@ use app\common\controller\Backend;
 class Receiver extends Backend
 {
     protected $email = null;
-    protected $noNeedLogin = ['receive'];
+    protected $noNeedLogin = ['receive','getHistory'];
 
     public function _initialize()
     {
@@ -66,6 +66,11 @@ class Receiver extends Backend
                 $this->email->send($repair['email'],"管理员","工厂监控管理系统",$content);
             }
         }
+    }
+
+    public function getHistory(){
+        $data = Db::name('instrument_history')->select();
+        return json_encode($data);
     }
     
     public function index()
