@@ -70,9 +70,12 @@ class Receiver extends Backend
 
     public function getHistory(){
         $data = Db::name('instrument_history')->select();
-        return json_encode($data);
+        $ids = Db::name('instrument')->column('id');
+        $res['deviceIDs']=$ids;
+        $res['data']=$data;
+        return json_encode($res);
     }
-    
+
     public function index()
     {
         $this->email->send("312726839@qq.com","xian","title","content");
