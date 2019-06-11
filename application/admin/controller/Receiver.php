@@ -2,6 +2,10 @@
 
 namespace app\admin\controller;
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS,PATCH');
+
 use think\Db;
 use app\common\controller\Backend;
 
