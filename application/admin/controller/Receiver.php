@@ -7,9 +7,9 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS,PATCH');
 
 use think\Db;
-use app\common\controller\Backend;
+use app\common\controller\Api;
 
-class Receiver extends Backend
+class Receiver extends Api
 {
     protected $email = null;
     protected $noNeedLogin = ['receive','getHistory'];
@@ -77,7 +77,8 @@ class Receiver extends Backend
         $ids = Db::name('instrument')->column('id');
         $res['deviceIDs']=$ids;
         $res['data']=$data;
-        return json_encode($res);
+        $this->success("成功",$res,200);
+        //return json_encode($res);
     }
 
     public function index()
