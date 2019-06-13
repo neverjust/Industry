@@ -100,6 +100,7 @@ class Receiver extends Api
         $instrument['humidityDanger'] = $instrument['humidity'] > $type['high_humidity'] ?
             $instrument['humidity'] - $type['high_humidity'] :
             ($instrument['humidity'] < $type['low_humidity'] ? $type['high_humidity'] - $instrument['humidity'] : 0);
+        $instrument['name'] = $type['name'];
         unset($instrument['id']);
 
         $this->success("成功",$instrument,200);
