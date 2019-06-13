@@ -92,8 +92,16 @@ class Receiver extends Api
     {
         $data = getParms();
         $instrument = Db::table('in_instrument')->where('id',$data['id'])->find();
-        $instrument['uuid'] =$instrument['id']; 
+        $instrument['uuid'] =$instrument['id'];
+        $type = Db::table('in_instrument_type')->where('id',$instrument['type'])->find();
+        $instrument['temperatureDanger'] = $instrument['temperature'] > $type['high_temp'] ?
+            $instrument['temperature'] - $type['high_temp'] :
+            ($instrument['temperature'] < $type['low_temp'] ? $type['high_temp'] - $instrument['temperature'] : 0);
+        $instrument['humidityDanger'] = $instrument['humidity'] > $type['high_humidity'] ?
+            $instrument['humidity'] - $type['high_humidity'] :
+            ($instrument['humidity'] < $type['low_humidity'] ? $type['high_humidity'] - $instrument['humidity'] : 0);
         unset($instrument['id']);
+
         $this->success("成功",$instrument,200);
     }
     public function getHistory(){
