@@ -80,6 +80,8 @@ class Receiver extends Api
     {
         $data = getParms();
         $factory = Db::table('in_factory')->where('id',$data['id'])->find();
+        $factory['uuid'] =$factory['id']; 
+        unset($factory['id']);
         $id = Db::table('in_instrument')->where('factory_id',$data['id'])->column('id');
         $factory['instrumentsUuids']=$id;
         $this->success("成功",$factory,200);
@@ -90,6 +92,8 @@ class Receiver extends Api
     {
         $data = getParms();
         $instrument = Db::table('in_instrument')->where('id',$data['id'])->find();
+        $instrument['uuid'] =$instrument['id']; 
+        unset($instrument['id']);
         $this->success("成功",$instrument,200);
     }
     public function getHistory(){
