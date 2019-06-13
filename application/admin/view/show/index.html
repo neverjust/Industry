@@ -1,0 +1,107 @@
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="app">
+        <div id="btn-bar" class="toolbar">
+            <a>设备ID:</a>
+            <a v-for="deviceId in deviceIDs" v-on:click="showChart(deviceId)" class="btn btn-success btn-add "
+                style="margin-left: 10px">{{deviceId}}</a>
+        </div>
+        <canvas id="myChart"></canvas>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                deviceIDs: [],
+                datasets: []
+            },
+            methods: {
+                showChart(deviceId) {
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var a = getDataById(deviceId)
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: a.time,
+                            datasets: [{
+                                label: "temperature",
+                                data: a.temperature,
+                                borderWidth: 2,
+                                fill: false,
+                                borderColor: 'rgba(50,205,50, 0.7)',
+                                backgroundColor: 'rgba(50,205,50, 0.7)'
+                            }, {
+                                label: "humidity",
+                                data: a.humidity,
+                                borderWidth: 2,
+                                fill: false,
+                                borderColor: 'rgba(0, 0, 255, 0.7)',
+                                backgroundColor: 'rgba(0, 0, 255, 0.7)'
+                            }, {
+                                label: "situation",
+                                data: a.situation,
+                                borderWidth: 2,
+                                fill: false,
+                                borderColor: 'rgba(0, 0, 0, 0.7)',
+                                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+                            }, {
+                                label: "threshold",
+                                data: a.threshold,
+                                borderWidth: 2,
+                                fill: false,
+                                borderColor: 'rgba(255, 0, 0, 0.7)',
+                                backgroundColor: 'rgba(255, 0, 0, 0.7)'
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            }
+        })
+
+        $.getJSON({
+            url: "http://101.132.181.191/industry/public/admin.php/Receiver/getHistory",
+            dataType: "json",
+            type: "get",
+            // async: false,
+            success: function (data, textStatus) {
+                app.deviceIDs = data.data.deviceIDs;
+                app.datasets = data.data.data;
+                app.showChart(1)
+            }
+        });
+
+
+        function getDataById(deviceId) {
+            var time = [];
+            var temperature = [];
+            var humidity = [];
+            var situation = [];
+            var threshold = [];
+            $.each(app.datasets, function (i, n) {
+                if (app.datasets[i].instrument_id == deviceId) {
+                    time.push(app.datasets[i].time)
+                    temperature.push(app.datasets[i].temperature)
+                    humidity.push(app.datasets[i].humidity)
+                    situation.push(app.datasets[i].situation)
+                    threshold.push(app.datasets[i].threshold)
+                }
+            })
+            return {
+                "time": time,
+                "temperature": temperature,
+                "humidity": humidity,
+                "situation": situation,
+                "threshold": threshold
+            };
+        }
+    </script>

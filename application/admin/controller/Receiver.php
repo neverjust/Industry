@@ -12,7 +12,7 @@ use app\common\controller\Api;
 class Receiver extends Api
 {
     protected $email = null;
-    protected $noNeedLogin = ['receive','getHistory'];
+    protected $noNeedLogin = ['receive','getHistory','getUuid','getfactory','getInstrument'];
 
     public function _initialize()
     {
@@ -48,7 +48,7 @@ class Receiver extends Api
             if($instrument['situation']>$instrument['threshold']){
                 $ifError = 1;
                 var_dump($type);
-                $content = "工厂：$factory[name] \r\n最高温度：$type[high_temp] 最低温度：$type[low_temp]  现温度：$instrument[temperature] \r\n最高湿度：$type[high_humidity] 最低湿度 $type[low_humidity]  现湿度：$instrument[humidity]\r\n计算后的现值为： $instrument[situation]  阈值为：$instrument[threshold]\r\n";
+                $content = "工厂：$factory[name] \r\n仪器id:$instrument[id]\r\n最高温度：$type[high_temp] 最低温度：$type[low_temp]  现温度：$instrument[temperature] \r\n最高湿度：$type[high_humidity] 最低湿度 $type[low_humidity]  现湿度：$instrument[humidity]\r\n计算后的现值为： $instrument[situation]  阈值为：$instrument[threshold]\r\n";
                 var_dump($content);
                     
             }
@@ -71,7 +71,27 @@ class Receiver extends Api
             }
         }
     }
+    public function getUuid()
+    {
+        $id = Db::table('in_factory')->column('id');
+        $this->success("成功",$id,200);
+    }
+    public function getfactory()
+    {
+        $data = getParms();
+        $factory = Db::table('in_factory')->where('id',$data['id'])->find();
+        $id = Db::table('in_instrument')->where('factory',$data['id'])->column('id');
+        $factory['instrumentsUuids']=$id;
+        $this->success("成功",$factory,200);
+    }
 
+
+    public function getInstrument()
+    {
+        $data = getParms();
+        $instrument = Db::table('in_instrument')->where('id',$data['id'])->find();
+        $this->success("成功",$instrument,200);
+    }
     public function getHistory(){
         $data = Db::name('instrument_history')->select();
         $ids = Db::name('instrument')->column('id');
