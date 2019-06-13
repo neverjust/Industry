@@ -80,7 +80,7 @@ class Receiver extends Api
     {
         $data = getParms();
         $factory = Db::table('in_factory')->where('id',$data['id'])->find();
-        $id = Db::table('in_instrument')->where('factory',$data['id'])->column('id');
+        $id = Db::table('in_instrument')->where('factory_id',$data['id'])->column('id');
         $factory['instrumentsUuids']=$id;
         $this->success("成功",$factory,200);
     }
